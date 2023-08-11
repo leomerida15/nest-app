@@ -1,27 +1,36 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { NestFastifyApplication, FastifyAdapter } from '@nestjs/platform-fastify';
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
-import { ConfigKeyEnum } from './config';
+import { ConfigKeys } from './config/configuration';
+import { contentParser } from 'fastify-multer';
+import GlobalConfig from './config/global';
 
 async function bootstrap() {
 	// define http frameware
 	const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
 
+	// Multer
+	await app.register(contentParser);
+
 	// Config
 	const config = app.get(ConfigService);
-	const { name, port } = config.get(ConfigKeyEnum.GLOBAL);
+
+	const { port, name } = config.get<GlobalConfig>(ConfigKeys.GLOBAL);
+
+	// scritps
+	// generateTypeormConfigFile(config);
+
+	// cors
+	app.enableCors();
 
 	// prefig
 	app.setGlobalPrefix('v1');
 
 	// valid
 	app.useGlobalPipes(new ValidationPipe());
-
-	// cors
-	app.enableCors();
 
 	// swagger
 	const swaggerConfig = new DocumentBuilder()
@@ -36,10 +45,10 @@ async function bootstrap() {
 	SwaggerModule.setup('api', app, document);
 
 	//  Server
-	await app.listen(3000);
+	await app.listen(port, '0.0.0.0');
 
 	// Bonny
-	console.log(`() ()   port: ${port}`);
+	console.log(`() ()`);
 	console.log('(°.°) ');
 	console.log('(| |)*');
 }
