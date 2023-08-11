@@ -5,7 +5,7 @@ import { ROL_KEY } from 'src/common/decorators/roles.decorator';
 import { Rols } from 'src/modules/auth/entities/rol.entity';
 import { ConfigService } from '@nestjs/config';
 import { ConfigKeysEnum } from 'src/config/configuration';
-import { RolsConfig } from 'src/config/rol';
+import RolsConfig from 'src/config/rol';
 
 @Injectable()
 export class RolAuthGuard implements CanActivate {
