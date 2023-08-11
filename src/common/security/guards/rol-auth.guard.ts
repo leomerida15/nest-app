@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { ROL_KEY } from 'src/common/decorators/roles.decorator';
 import { Rols } from 'src/modules/auth/entities/rol.entity';
 import { ConfigService } from '@nestjs/config';
-import { ConfigKeys } from 'src/config/configuration';
+import { ConfigKeysEnum } from 'src/config/configuration';
 import { RolsConfig } from 'src/config/rol';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class RolAuthGuard implements CanActivate {
 
 		console.log('rolKey', rolKey);
 
-		const rol = this.configService.get<RolsConfig>(ConfigKeys.ROLS)[rolKey];
+		const rol = this.configService.get<RolsConfig>(ConfigKeysEnum.ROLS)[rolKey];
 
 		console.log('rol', rol);
 

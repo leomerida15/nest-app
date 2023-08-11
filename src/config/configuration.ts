@@ -2,9 +2,9 @@ import dbConfig from './db';
 import GlobalConfig from './global';
 import JwtConfig from './jwt';
 import MailConfig from './mail';
-import { RolsConfig } from './rol';
+import RolsConfig from './rol';
 
-export const enum ConfigKeys {
+export const enum ConfigKeysEnum {
 	DB = 'db',
 	JWT = 'jwt',
 	MAIL = 'mail',

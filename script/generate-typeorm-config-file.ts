@@ -22,8 +22,6 @@ const generateTypeormConfigFile = async () => {
   import { DataSource } from 'typeorm';
 
 export const AppDataSource = new DataSource({
-	
-	
 		type: 'postgres',
 		host: '${process.env.PGHOST}',
 		port: ${Number(process.env.PGPORT)},

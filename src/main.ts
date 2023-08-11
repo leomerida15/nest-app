@@ -4,7 +4,7 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
-import { ConfigKeys } from './config/configuration';
+import { ConfigKeysEnum } from './config/configuration';
 import { contentParser } from 'fastify-multer';
 import GlobalConfig from './config/global';
 
@@ -18,7 +18,7 @@ async function bootstrap() {
 	// Config
 	const config = app.get(ConfigService);
 
-	const { port, name } = config.get<GlobalConfig>(ConfigKeys.GLOBAL);
+	const { port, name } = config.get<GlobalConfig>(ConfigKeysEnum.GLOBAL);
 
 	// scritps
 	// generateTypeormConfigFile(config);
