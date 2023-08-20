@@ -38,11 +38,17 @@ interface data {
 		};
 
 		editPass: {
-			prop: [JwtData, { password: string }];
+			prop: [JwtData['userId'], { password: string }];
 			db: { findOneBy: UserEntity };
 		};
 	};
 }
+
+const jwtData: JwtData = {
+	userId: 'UUID',
+	rolId: '',
+	confirEmail: false,
+};
 
 const data: data = {
 	ok: {
@@ -56,19 +62,28 @@ const data: data = {
 		},
 
 		login: {
-			prop: { email: 'email', id: 'id' },
+			prop: {
+				email: 'email',
+				id: 'id',
+				rol: new RolEntity(),
+				confirEmail: false,
+			},
 			resp: { email: 'email', access_token: 'token' },
 		},
 
 		confir: {
-			prop: { userId: 'id' },
+			prop: {
+				userId: 'id',
+				rolId: '',
+				confirEmail: false,
+			},
 			db: {
 				findOneBy: { id: 'id', email: 'email', password: 'password', confirEmail: false, rol: 'rol' },
 			},
 		},
 
 		editPass: {
-			prop: [{ userId: 'id' }, { password: 'password' }],
+			prop: [jwtData.userId, { password: 'password' }],
 			db: {
 				findOneBy: { id: 'id', email: 'email', password: 'password', confirEmail: false, rol: 'rol' },
 			},
@@ -274,7 +289,7 @@ describe('🤖 AuthService', () => {
 			it('should return an "🔹 - OK" case', async () => {
 				const { prop } = data.ok.confir;
 
-				await authService.confir(prop);
+				await authService.confir(jwtData.userId);
 
 				expect(userRepository.findOneBy).toHaveBeenCalled();
 				expect(userRepository.update).toHaveBeenCalled();
@@ -288,7 +303,7 @@ describe('🤖 AuthService', () => {
 				try {
 					const { prop } = data.ok.confir;
 
-					await authService.confir(prop);
+					await authService.confir(jwtData.userId);
 				} catch (error) {
 					expect(userRepository.findOneBy).toHaveBeenCalled();
 					expect(userRepository.update).not.toHaveBeenCalled();

@@ -11,7 +11,7 @@ import { ConfigService } from '@nestjs/config';
 import MailConfig from 'src/config/mail';
 import { JwtData } from 'src/common/decorators/jwt.decorator';
 import { LocalData } from 'src/common/decorators/local.decorator';
-import { ConfigKeysEnum } from 'src/config/configuration';
+import { ConfigKeysCEnum } from 'src/config/configuration';
 import { confirTemplate, recoverTemplate } from './mails/createTemplate';
 
 @Injectable()
@@ -42,11 +42,11 @@ export class AuthService {
 		});
 
 		const token = this.jwtService.sign({ data: user.id });
-		const url = this.configService.get<MailConfig>(ConfigKeysEnum.MAIL).confirmationURL(user.id);
+		const url = this.configService.get<MailConfig>(ConfigKeysCEnum.MAIL).confirmationURL(user.id);
 
 		await this.mailerService.sendMail({
 			to: user.email,
-			from: this.configService.get<MailConfig>(ConfigKeysEnum.MAIL).user,
+			from: this.configService.get<MailConfig>(ConfigKeysCEnum.MAIL).user,
 			subject: 'Confirmation email',
 			html: confirTemplate({ email: user.email, url }),
 		});
@@ -71,11 +71,11 @@ export class AuthService {
 		const user = await this.userRepository.findOneBy({ email });
 		if (!user) throw new HttpException('ERROR_TO_REGISTER', HttpStatus.NOT_FOUND);
 
-		const url = this.configService.get<MailConfig>(ConfigKeysEnum.MAIL).recoverURL(user.id);
+		const url = this.configService.get<MailConfig>(ConfigKeysCEnum.MAIL).recoverURL(user.id);
 
 		await this.mailerService.sendMail({
 			to: user.email,
-			from: this.configService.get<MailConfig>(ConfigKeysEnum.MAIL).user,
+			from: this.configService.get<MailConfig>(ConfigKeysCEnum.MAIL).user,
 			subject: 'Recover password',
 			html: recoverTemplate({ email: user.email, url }),
 		});
@@ -92,11 +92,11 @@ export class AuthService {
 		const user = await this.userRepository.findOneBy({ email });
 		if (!user) throw new HttpException('ERROR_TO_REGISTER', HttpStatus.NOT_FOUND);
 
-		const url = this.configService.get<MailConfig>(ConfigKeysEnum.MAIL).confirmationURL(user.id);
+		const url = this.configService.get<MailConfig>(ConfigKeysCEnum.MAIL).confirmationURL(user.id);
 
 		await this.mailerService.sendMail({
 			to: user.email,
-			from: this.configService.get<MailConfig>(ConfigKeysEnum.MAIL).user,
+			from: this.configService.get<MailConfig>(ConfigKeysCEnum.MAIL).user,
 			subject: 'Recover password',
 			html: confirTemplate({ email: user.email, url }),
 		});

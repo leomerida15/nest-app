@@ -4,7 +4,7 @@ import JwtConfig from './jwt';
 import MailConfig from './mail';
 import RolsConfig from './rol';
 
-export const enum ConfigKeysEnum {
+export const enum ConfigKeysCEnum {
 	DB = 'db',
 	JWT = 'jwt',
 	MAIL = 'mail',

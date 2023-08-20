@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { UserDto, UserEditSetRolDto } from './dto/user.dto';
-import { Rols } from './entities/rol.entity';
+import { UserDto, UserEditPassDto, UserRecoverDto } from './dto/user.dto';
+import { RolEntity, Rols } from './entities/rol.entity';
 import { LocalData } from '../../common/decorators/local.decorator';
 import { JwtData } from 'src/common/decorators/jwt.decorator';
 
@@ -17,11 +17,17 @@ const AuthRegisterData: UserDto = {
 const AuthLoginData: LocalData = {
 	email: 'test@test.com',
 	id: 'Test123.',
+	rol: new RolEntity(),
+	confirEmail: false,
 };
 
-const jwtData: JwtData = { userId: 'UUID' };
+const jwtData: JwtData = {
+	userId: 'UUID',
+	rolId: '',
+	confirEmail: false,
+};
 
-const editPassData: [JwtData, UserEditSetRolDto] = [jwtData, { password: 'Test123.' }];
+const editPassData: [JwtData['userId'], UserEditPassDto] = [jwtData.userId, { password: 'Test123.' }];
 
 describe('AuthController 🔐', () => {
 	let authController: AuthController;
@@ -112,7 +118,7 @@ describe('AuthController 🔐', () => {
 			describe('OK - 🔷', () => {
 				//
 				it('should return an email and access_token', async () => {
-					await authController.recover(jwtData);
+					await authController.recover(AuthLoginData);
 
 					expect(authService.recover).toHaveBeenCalled();
 				});
@@ -123,7 +129,7 @@ describe('AuthController 🔐', () => {
 				it('should return an "error"', async () => {
 					jest.spyOn(authService, 'recover').mockRejectedValue('error');
 					try {
-						await authController.recover(jwtData);
+						await authController.recover(AuthLoginData);
 					} catch (error) {
 						expect(authService.recover).toHaveBeenCalled();
 						expect(error).toBe('error');
@@ -163,7 +169,7 @@ describe('AuthController 🔐', () => {
 		describe('OK - 🔷', () => {
 			//
 			it('should return an email and access_token', async () => {
-				await authController.confir(jwtData);
+				await authController.confir(jwtData.userId);
 
 				expect(authService.confir).toHaveBeenCalled();
 			});
@@ -174,7 +180,7 @@ describe('AuthController 🔐', () => {
 			it('should return an "error"', async () => {
 				jest.spyOn(authService, 'confir').mockRejectedValue('error');
 				try {
-					await authController.confir(jwtData);
+					await authController.confir(jwtData.userId);
 				} catch (error) {
 					expect(authService.confir).toHaveBeenCalled();
 					expect(error).toBe('error');
