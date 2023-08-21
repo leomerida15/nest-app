@@ -21,17 +21,21 @@ export class UserDto {
 	password: string;
 
 	@IsEnum(Rols)
-	@ApiProperty()
+	@ApiProperty({ enum: Rols })
 	rol: Rols;
 }
 
-export class UserLoginDto extends OmitType(UserDto, ['rol'] as const) {}
+export class UserLoginDto extends OmitType(UserDto, ['rol']) {}
 
-export class UserRecoverDto extends PickType(UserDto, ['email'] as const) {}
+export class UserRecoverDto extends PickType(UserDto, ['email']) {}
 
-export class UserEditPassDto extends PickType(UserDto, ['password'] as const) {}
+export class UserEditPassDto extends PickType(UserDto, ['password']) {}
 
-export class UserSetRolDto extends PickType(UserDto, ['rol'] as const) {}
+export class UserSetRolDto extends PickType(UserDto, ['rol']) {
+	@IsEnum(Rols)
+	@ApiProperty({ enum: Rols })
+	rol: Rols;
+}
 
 export class AuthRespDto {
 	@ApiProperty()

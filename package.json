@@ -18,13 +18,11 @@
 		"test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
 		"test:e2e": "jest --config ./test/jest-e2e.json",
 		"typeorm": "typeorm-ts-node-commonjs",
-		"ormconfig:generate": "ts-node script/generate-typeorm-config-file.ts",
-		"migration:generate": "pnpm typeorm migration:generate",
-		"migration:run": "pnpm typeorm migration:run",
-		"migration:revert": "pnpm typeorm migration:revert",
-		"orm:init": "pnpm typeorm -d src/config/data.source.ts",
-		"m:gen": "pnpm orm:init migration:generate",
-		"m:run": "pnpm orm:init migration:run"
+		"orm:connect": "pnpm typeorm -d src/config/data.source.ts",
+		"migration:revert": "pnpm orm:connect migration:revert",
+		"migration:generate": "pnpm orm:connect migration:generate",
+		"migration:create": "pnpm orm:connect migration:create",
+		"migration:run": "pnpm orm:connect migration:run"
 	},
 	"dependencies": {
 		"@fastify/static": "^6.10.2",

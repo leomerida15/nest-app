@@ -21,7 +21,7 @@ export const confirTemplate = ({ email, url }: { email: string; url: string }) =
                     <br />
                     <br />
                     <br />
-            
+
                 </p>
                 <br />
                 <div style="text-align: center; border-bottom: 1px solid #f2f3f5; margin-top: 0px;font-family: 'Roboto', sans-serif">
@@ -54,7 +54,7 @@ export const confirTemplate = ({ email, url }: { email: string; url: string }) =
         </div>
         <div style="max-width: 600px; margin: 0 auto;font: 14px sans-serif">
             <p style="font-size: 14px; outline: 0; text-align: justify;font-family: 'Roboto', sans-serif">
-                Dimas Merida Developer  
+                Dimas Merida Developer
             </p>
         </div>
     </body>

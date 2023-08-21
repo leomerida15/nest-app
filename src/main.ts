@@ -18,10 +18,22 @@ async function bootstrap() {
 	// Config
 	const config = app.get(ConfigService);
 
-	const { port, name } = config.get<GlobalConfig>(ConfigKeysCEnum.GLOBAL);
+	const { port, name, corsOrigin } = config.get<GlobalConfig>(ConfigKeysCEnum.GLOBAL);
 
 	// cors
-	app.enableCors();
+	app.enableCors({
+		origin: (origin, callback) => {
+			if (corsOrigin.includes(origin)) {
+				return callback(null, true);
+			}
+
+			if (!origin) {
+				return callback(null, true);
+			}
+
+			return callback(new Error('Not allowed by CORS'));
+		},
+	});
 
 	// prefig
 	app.setGlobalPrefix('v1');

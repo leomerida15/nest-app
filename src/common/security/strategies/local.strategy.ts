@@ -6,8 +6,6 @@ import { SecurityService } from '../security.service';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
-	private readonly logger = new Logger(LocalStrategy.name);
-
 	constructor(private readonly securityService: SecurityService) {
 		super({
 			usernameField: 'email',

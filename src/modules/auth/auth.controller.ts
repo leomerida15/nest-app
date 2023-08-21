@@ -7,6 +7,7 @@ import { LocalAuthGuard } from 'src/common/security/guards/local-auth.guard';
 import { AuthService } from './auth.service';
 import { AuthRespDto, UserDto, UserEditPassDto, UserLoginDto, UserRecoverDto, UserSetRolDto } from './dto/user.dto';
 import { Rols } from './entities/rol.entity';
+import { ConfirAuthGuard } from 'src/common/security/guards/confir-auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -63,7 +64,7 @@ export class AuthController {
 		return await this.authService.editPass(userId, data);
 	}
 
-	@Patch('confir/:userId')
+	@Get('confir/:userId')
 	@HttpCode(HttpStatus.OK)
 	@ApiParam({
 		name: 'userId',
@@ -73,12 +74,7 @@ export class AuthController {
 		type: AuthRespDto,
 	})
 	async confir(@Param('userId') userId: string) {
-		console.clear();
-		console.log('confir/:userId');
-
 		const info = await this.authService.confir(userId);
-
-		console.log('confir/:userId');
 
 		return info;
 	}
@@ -105,7 +101,10 @@ export class AuthController {
 		enum: Rols,
 	})
 	@ApiBearerAuth()
+	@UseGuards(JwtAuthGuard, ConfirAuthGuard)
 	async setRol(@JWT() jwtData: JwtData, @Body() data: UserSetRolDto) {
+		console.log('jwtData', jwtData);
+		console.log('data', data);
 		return await this.authService.setRol(jwtData, data.rol);
 	}
 

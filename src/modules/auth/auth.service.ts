@@ -44,7 +44,7 @@ export class AuthService {
 		const token = this.jwtService.sign({ data: user.id });
 		const url = this.configService.get<MailConfig>(ConfigKeysCEnum.MAIL).confirmationURL(user.id);
 
-		await this.mailerService.sendMail({
+		this.mailerService.sendMail({
 			to: user.email,
 			from: this.configService.get<MailConfig>(ConfigKeysCEnum.MAIL).user,
 			subject: 'Confirmation email',
@@ -55,6 +55,7 @@ export class AuthService {
 			access_token: token,
 			email,
 			confirEmail: user.confirEmail,
+			confir_url: url,
 		};
 	}
 
@@ -73,7 +74,7 @@ export class AuthService {
 
 		const url = this.configService.get<MailConfig>(ConfigKeysCEnum.MAIL).recoverURL(user.id);
 
-		await this.mailerService.sendMail({
+		this.mailerService.sendMail({
 			to: user.email,
 			from: this.configService.get<MailConfig>(ConfigKeysCEnum.MAIL).user,
 			subject: 'Recover password',
@@ -94,7 +95,7 @@ export class AuthService {
 
 		const url = this.configService.get<MailConfig>(ConfigKeysCEnum.MAIL).confirmationURL(user.id);
 
-		await this.mailerService.sendMail({
+		this.mailerService.sendMail({
 			to: user.email,
 			from: this.configService.get<MailConfig>(ConfigKeysCEnum.MAIL).user,
 			subject: 'Recover password',
@@ -132,6 +133,12 @@ export class AuthService {
 	}
 
 	public async user(jwtData: JwtData) {
-		return await this.userRepository.findOneBy({ id: jwtData.userId });
+		return await this.userRepository.findOne({
+			where: { id: jwtData.userId },
+			relations: {
+				rol: true,
+			},
+			select: { email: true, password: false, id: true, rol: true, confirEmail: true },
+		});
 	}
 }

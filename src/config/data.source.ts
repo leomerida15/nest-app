@@ -1,6 +1,7 @@
 import { ConfigModule } from '@nestjs/config';
 import { DataSource } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import * as path from 'path';
 
 ConfigModule.forRoot({
 	envFilePath: `.env`,
@@ -18,5 +19,5 @@ export const AppDS = new DataSource({
 	migrationsRun: true,
 	namingStrategy: new SnakeNamingStrategy(),
 	entities: [__dirname + '/../**/**/*.entity{.ts,.js}'],
-	migrations: [__dirname + '/../migrations/*{.ts,.js}'],
+	migrations: [__dirname + '/../../migrations/*{.ts,.js}'],
 });

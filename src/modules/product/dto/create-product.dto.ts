@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsArray, IsJSON, IsNumber, IsString, IsUUID } from 'class-validator';
+import { IsArray, IsJSON, IsNumber, IsString, IsUUID, isURL } from 'class-validator';
 
 export class CreateProductDto {
 	@IsString()
@@ -14,16 +14,15 @@ export class CreateProductDto {
 
 	@IsNumber()
 	@ApiProperty()
-	stog: number;
+	stop: number;
 
 	@IsArray()
-	@IsJSON({ each: true })
-	@ApiProperty()
-	imgs: {
-		image: { get: string; delete: string };
-		thumb: { get: string; delete: string };
-		medium: { get: string; delete: string };
-	}[];
+	@IsString({ each: true })
+	@ApiProperty({
+		isArray: true,
+		type: 'string',
+	})
+	imgs: string[];
 
 	@IsString()
 	@IsUUID()

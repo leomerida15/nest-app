@@ -14,17 +14,9 @@ export class RolAuthGuard implements CanActivate {
 	canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
 		const rolKey = this.reflector.getAllAndOverride<Rols>(ROL_KEY, [context.getHandler(), context.getClass()]);
 
-		console.log('rolKey', rolKey);
-
 		const rol = this.configService.get<RolsConfig>(ConfigKeysCEnum.ROLS)[rolKey];
 
-		console.log('rol', rol);
-
 		const userRolId = context.switchToHttp().getRequest().user.rolId;
-
-		console.log('userRolId', userRolId);
-
-		console.log('userRolId === rol', userRolId === rol);
 
 		return userRolId === rol;
 	}

@@ -6,4 +6,4 @@ export interface JwtData {
 	confirEmail: boolean;
 }
 
-export const JWT = createParamDecorator((data, req): JwtData => req.switchToHttp().getRequest().user);
+export const JWT = createParamDecorator((_, req): JwtData => req.switchToHttp().getRequest().user);

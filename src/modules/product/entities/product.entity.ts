@@ -31,7 +31,7 @@ export class ProductEntity {
 
 	@Column({ default: 0 })
 	@IsNumber()
-	stog: number;
+	stop: number;
 
 	@Column({ type: 'simple-array', default: [] })
 	@IsJSON({ each: true })

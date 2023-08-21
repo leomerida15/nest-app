@@ -6,4 +6,6 @@ export default class GlobalConfig {
 	name = process.env.NAME;
 
 	host = process.env.HOST;
+
+	corsOrigin = [process.env.HOST];
 }
