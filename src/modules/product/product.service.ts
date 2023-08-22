@@ -26,7 +26,7 @@ export class ProductService {
 	}
 
 	async update(id: string, updateProductDto: UpdateProductDto) {
-		return await this.productRepository.update({ id }, updateProductDto);
+		return await this.productRepository.update({ id }, { ...updateProductDto });
 	}
 
 	async remove(id: string) {

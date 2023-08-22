@@ -9,7 +9,6 @@ import { ConfigKeysCEnum } from 'src/config/configuration';
 			imports: [ConfigModule],
 			useFactory: (configService: ConfigService) => ({
 				...configService.get<TypeOrmModuleOptions>(ConfigKeysCEnum.DB),
-				synchronize: true,
 			}),
 			inject: [ConfigService],
 		}),

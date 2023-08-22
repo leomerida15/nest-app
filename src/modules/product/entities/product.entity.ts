@@ -34,12 +34,8 @@ export class ProductEntity {
 	stop: number;
 
 	@Column({ type: 'simple-array', default: [] })
-	@IsJSON({ each: true })
-	imgs: {
-		image: { get: string; delete: string };
-		thumb: { get: string; delete: string };
-		medium: { get: string; delete: string };
-	}[];
+	@IsString({ each: true })
+	imgs: string[];
 
 	@CreateDateColumn()
 	@IsDate()

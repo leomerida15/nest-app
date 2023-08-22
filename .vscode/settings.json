@@ -47,7 +47,8 @@
 		"codes": "docs",
 		"enum": "interface",
 		"enums": "interface",
-		"(pages)": "views"
+		"(pages)": "views",
+		"strategies": "coverage"
 	},
 	"cSpell.words": ["dmdq", "Iiwicm", "SECRECT", "supabase", "XVCJ", "ZSIs"],
 	"[prisma]": {
